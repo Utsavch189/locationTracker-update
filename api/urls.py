@@ -7,5 +7,6 @@ urlpatterns=[
     path('logout/',logoutt),
     path('track/<st>/',track),
     path('map/<st>/',Map),
-    path('api/',api)
+    path('api/<st>/',api),
+    path('oth_api/<st>/',OthersApi),
 ]

@@ -108,7 +108,7 @@ navigator.wakeLock.request('screen')
         let i = 0;
         navigator.geolocation.watchPosition(data => {
                 console.log(data)
-                fetch('http://127.0.0.1:8000/track/{{request.user.username}}/', {
+                fetch(`${window.location.origin}/track/{{request.user.username}}/`, {
                     method: 'POST',
                    
                     headers: {

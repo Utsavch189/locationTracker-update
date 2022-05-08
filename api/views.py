@@ -94,14 +94,14 @@ def track(request,st):
             body = json.loads(body_unicode)
             lat = (body['lat'])
             long=(body['lon'])
-            print(lat,long)
-            if(Pos.objects.exists()):
-                c=Pos.objects.count()
+            obj=Pos.objects.filter(userID=st)
+            if(obj.exists()):
+                c=obj.count()
                 if(c==1):
                     x=Pos(idd=c+1,userID=st,latitude=lat,longitude=long)
                     x.save()
                 else:
-                    x=Pos(idd=c+1,userID=st,latitude=lat,longitude=long)
+                    x=Pos(idd=1,userID=st,latitude=lat,longitude=long)
                     x.save()
    
             else:
@@ -127,22 +127,46 @@ def Map(request,st):
 
 
 @api_view(['GET'])
-def api(request):
+def api(request,st):
 
     if request.method=='GET':
-        
+        request.user.username=st
         r_obj=Pos.objects.filter(userID=request.user.username)
-        
+
         
         data=[
             
         ]
         if(r_obj.exists()):
+
             c=r_obj.count()
-            for i in range(1,c+1):
-                data.append(([float(r_obj.filter(idd=i).values('longitude')[0]['longitude']), float(r_obj.filter(idd=i).values('latitude')[0]['latitude'])]))
-            
-       
+            print(c)
+            for i in range(0,c):
+                data.append(([float(r_obj.values('longitude')[i]['longitude']), float(r_obj.values('latitude')[i]['latitude'])]))
+         
             return Response(data)
         else:
             return Response({'msg':'no data'})
+
+
+
+
+@api_view(['POST'])
+def OthersApi(request,st):
+    if request.method=='POST':
+        value=(request.data['msg'])
+        r_obj=Pos.objects.filter(userID=value)
+                
+        data=[
+            
+        ]
+        if(r_obj.exists()):
+
+            c=r_obj.count()
+            print(c)
+            for i in range(0,c):
+                data.append(([float(r_obj.values('longitude')[i]['longitude']), float(r_obj.values('latitude')[i]['latitude'])]))
+         
+            return Response(data)
+
+        return Response({'status':'running'})
