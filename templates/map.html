@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+</body>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoidXRzYXYxMjM3NiIsImEiOiJjbDJzZ2txN3AwNWJwM2RwZDd3bnl2d3FvIn0.dz567SK8Zp8Is83HZL1WWg';
+    a = []
+    let center;
+
+
+
+
+    fetch('http://127.0.0.1:8000/api/', )
+        .then(res => res.json())
+        .then(d => {
+            console.log(d)
+            for (let s = 0; s < d.length; s++) {
+                a.push(d[s])
+            }
+            center = parseInt(d.length / 2);
+            console.log(center)
+            const map = new mapboxgl.Map({
+
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: a[center],
+                zoom: 13
+            }, );
+            console.log(center)
+            map.on('load', () => {
+                console.log(a)
+                map.addSource('route', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': a
+                        }
+                    }
+                });
+                map.addLayer({
+                    'id': 'route',
+                    'type': 'line',
+                    'source': 'route',
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    'paint': {
+                        'line-color': '#888',
+                        'line-width': 8
+                    }
+                });
+            });
+
+
+
+        })
+</script>
+
+</html>
