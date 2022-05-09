@@ -15,7 +15,11 @@ from django.contrib import messages
 
 
 def home(request):
-    return render(request,'home.html')
+    objs=Pos.objects.filter(userID=request.user.username)
+    dictt={
+    'count':objs.count()
+    }
+    return render(request,'home.html',{'dictt':dictt})
 
 def register(request):
     if request.method=='GET':
