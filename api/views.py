@@ -170,3 +170,13 @@ def OthersApi(request,st):
             return Response(data)
 
         return Response({'status':'running'})
+
+
+
+@api_view(['POST'])
+def deletes(request,st):
+    r_obj=Pos.objects.filter(userID=st)
+    if(r_obj.exists()):
+        r_obj.delete()
+
+    return Response({'msg':'running'})

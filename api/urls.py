@@ -9,4 +9,6 @@ urlpatterns=[
     path('map/<st>/',Map),
     path('api/<st>/',api),
     path('oth_api/<st>/',OthersApi),
+        path('del/<st>/',deletes),
+
 ]
