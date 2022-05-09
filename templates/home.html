@@ -1,9 +1,9 @@
 {% extends 'Base.html' %} {% block title %} Home {% endblock title %} {% block body %} {% if request.user.is_anonymous %}
 <section class="Main">
-   <div class="container con"> 
-    <h1 class="text-left" style="font-size: 4rem">Welcome To</h1>
-<h3 class="text-left change"  style="font-size: 2.3rem;margin-top: 5px"></h3>
-</div>
+    <div class="container con">
+        <h1 class="text-left" style="font-size: 3.5rem">Welcome To</h1>
+        <h3 class="text-left change" style="font-size: 1.7rem;margin-top: 5px"></h3>
+    </div>
 
 
 </section>
@@ -28,35 +28,31 @@
 
 {% else %}
 <section class="Main">
-   <div class="container con"> 
-    <h1 class="text-left" style="font-size: 4.5rem">Welcome </h1>
-    <h2 class="text-left" style="font-size: 2rem">{{request.user.first_name}} {{request.user.last_name}}</h2>
-<h3 class="text-left change"  style="font-size: 1.5rem;margin-top: 5px"></h3>
-<button type="button" class="btn btn-outline-danger my-4" onclick="del()" style="width: 12vw" id="btn">Delete Your Records</button>
-<h5 class="text-left change"  >Your Total Catched Signals {{dictt.count}}</h5>
+    <div class="container con">
+        <h1 class="text-left" style="font-size: 4.1rem">Welcome </h1>
+        <h2 class="text-left" style="font-size: 1.8rem">{{request.user.first_name}} {{request.user.last_name}}</h2>
+        <h3 class="text-left change" style="font-size: 1.5rem;margin-top: 5px"></h3>
+        <button type="button" class="btn btn-outline-danger my-4" onclick="del()" style="width: 19vw" id="btn">Delete Your Records</button>
+        <h5 class="text-left change" style="color: rgb(239, 99, 99);">Your Total Catched Signals {{dictt.count}}</h5>
 
-</div>
+    </div>
 
 
 </section>
 <script>
+    document.getElementById('btn').onclick = function() {
+        fetch(`${window.location.origin}/del/{{request.user.username}}/`, {
+            method: 'POST',
 
-
-
-
-    document.getElementById('btn').onclick=function(){
-                  fetch(`${window.location.origin}/del/{{request.user.username}}/`, {
-                    method: 'POST',
-                   
-                    headers: {
-                        "X-CSRFToken": '{{csrf_token}}',
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                       'msg':'delete'
-                    }),
-                })
+            headers: {
+                "X-CSRFToken": '{{csrf_token}}',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'msg': 'delete'
+            }),
+        })
     }
 
 
@@ -77,10 +73,6 @@
         }
         setTimeout(type, 800);
     })();
-
-
-
-
 </script>
 
 

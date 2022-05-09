@@ -1,7 +1,7 @@
 .Main{
-  height: 100vh;
+  height: 94.1vh;
   width: 100vw;
-  background-image: url('/static/track.jpg');
+  background-image: url('/static/track-min.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
