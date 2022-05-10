@@ -106,6 +106,7 @@
     const go = () => {
         let array = []
         let c;
+        let en;
         val = document.getElementById('btn').value;
         if (val !== null) {
             fetch(`${base_url}/oth_api/{{request.user.username}}/`, {
@@ -127,6 +128,7 @@
                         array.push(d[s])
                     }
                     c = parseInt(d.length / 2);
+                    en=d.length-1;
                     console.log(array)
                     const map = new mapboxgl.Map({
 
@@ -135,7 +137,21 @@
                         center: array[c],
                         zoom: 13
                     }, );
-
+                    if(array.length===1){
+                        const marker1 = new mapboxgl.Marker()
+                        .setLngLat(array[0])
+                        .addTo(map);
+                    }
+                    else{
+                        const marker1 = new mapboxgl.Marker()
+                        .setLngLat(array[0])
+                        .addTo(map);
+            
+            
+                        const marker2 = new mapboxgl.Marker({ color: 'black', rotation: 45 })
+                        .setLngLat(array[en])
+                        .addTo(map);
+                    }
                     map.on('load', () => {
 
                         map.addSource('route', {
