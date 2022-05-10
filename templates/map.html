@@ -31,6 +31,7 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoidXRzYXYxMjM3NiIsImEiOiJjbDJzZ2txN3AwNWJwM2RwZDd3bnl2d3FvIn0.dz567SK8Zp8Is83HZL1WWg';
     a = []
     let center;
+    let end;
 
 
 
@@ -43,15 +44,30 @@
                 a.push(d[s])
             }
             center = parseInt(d.length / 2);
+            end=d.length-1;
             console.log(a)
             const map = new mapboxgl.Map({
 
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
                 center: a[center],
-                zoom: 13
+                zoom: 15
             }, );
-            console.log(center)
+        if(a.length===1){
+            const marker1 = new mapboxgl.Marker()
+            .setLngLat(a[0])
+            .addTo(map);
+        }
+        else{
+            const marker1 = new mapboxgl.Marker()
+            .setLngLat(a[0])
+            .addTo(map);
+
+
+            const marker2 = new mapboxgl.Marker({ color: 'black', rotation: 45 })
+            .setLngLat(a[end])
+            .addTo(map);
+        }
             map.on('load', () => {
                 console.log(a)
                 map.addSource('route', {
@@ -83,6 +99,7 @@
 
 
         })
+
 
 
 
