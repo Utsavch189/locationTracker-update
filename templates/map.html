@@ -34,19 +34,34 @@
     let center;
     let end;
 
+    let lat1,lat2,lon1,lon2,dist;
+
 
 
 
     fetch(`${base_url}/api/{{request.user.username}}/`, )
         .then(res => res.json())
         .then(d => {
-            console.log(d)
+            
             for (let s = 0; s < d.length; s++) {
                 a.push(d[s])
             }
             center = parseInt(d.length / 2);
             end=d.length-1;
-            console.log(a)
+
+
+
+            lat1=a[0][1]
+            lon1=a[0][0]
+
+            lat2=a[end][1]
+            lon2=a[end][0]
+
+            dist=Math.sqrt(Math.pow((lat2-lat1),2)+Math.pow((lon2-lon1),2))
+            
+
+            
+           
             const map = new mapboxgl.Map({
 
                 container: 'map',
@@ -54,6 +69,13 @@
                 center: a[center],
                 zoom: 15
             }, );
+
+            const popup = new mapboxgl.Popup({ closeOnClick: false })
+            .setLngLat(a[end])
+            .setHTML(`<h6>${dist}km</h6>`)
+            .addTo(map);
+
+
         if(a.length===1){
             const marker1 = new mapboxgl.Marker()
             .setLngLat(a[0])
@@ -70,7 +92,7 @@
             .addTo(map);
         }
             map.on('load', () => {
-                console.log(a)
+                
                 map.addSource('route', {
                     'type': 'geojson',
                     'data': {
@@ -109,6 +131,8 @@
         let c;
         let en;
         val = document.getElementById('btn').value;
+        
+        let lat1,lat2,lon1,lon2,dist;
         if (val !== null) {
             fetch(`${base_url}/oth_api/{{request.user.username}}/`, {
                     method: 'POST',
@@ -130,7 +154,18 @@
                     }
                     c = parseInt(d.length / 2);
                     en=d.length-1;
-                    console.log(array)
+                   
+
+                    lat1=array[0][1]
+                    lon1=array[0][0]
+        
+                    lat2=array[en][1]
+                    lon2=array[en][0]
+        
+                    dist=Math.sqrt(Math.pow((lat2-lat1),2)+Math.pow((lon2-lon1),2))
+
+
+
                     const map = new mapboxgl.Map({
 
                         container: 'map',
@@ -138,6 +173,14 @@
                         center: array[c],
                         zoom: 13
                     }, );
+
+
+                    const popup = new mapboxgl.Popup({ closeOnClick: false })
+                    .setLngLat(a[end])
+                    .setHTML(`<h6>${dist}km</h6>`)
+                    .addTo(map);
+
+
                     if(array.length===1){
                         const marker1 = new mapboxgl.Marker()
                         .setLngLat(array[0])
