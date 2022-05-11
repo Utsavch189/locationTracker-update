@@ -20,6 +20,8 @@
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Search other's location" id="btn" aria-label="Recipient's username" aria-describedby="button-addon2">
         <button class="btn btn-outline-success" onclick="go()" type="submit" id="button-addon2 ">Search</button>
+      
+
     </div>
 
     <div id='map' style='width: 100vw; height: 100vh;'></div>
@@ -176,7 +178,7 @@
 
 
                     const popup = new mapboxgl.Popup({ closeOnClick: false })
-                    .setLngLat(a[end])
+                    .setLngLat(array[en])
                     .setHTML(`<h6>${dist}km</h6>`)
                     .addTo(map);
 
@@ -229,7 +231,7 @@
 
     }
 
-    document.addEventListener(go(), "click")
+    document.addEventListener( "click",go())
 </script>
 
 </html>
